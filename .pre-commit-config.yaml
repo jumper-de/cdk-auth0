@@ -1,0 +1,26 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: "v4.4.0"
+    hooks:
+      - id: check-json
+      - id: check-symlinks
+      - id: destroyed-symlinks
+      - id: detect-private-key
+      - id: trailing-whitespace
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: "v3.1.0"
+    hooks:
+      - id: prettier
+  - repo: local
+    hooks:
+      - id: check-ci
+        name: check module status
+        files: "(package|package-lock).json"
+        entry: npm ci
+        language: system
+        pass_filenames: false
+      - id: build
+        name: build
+        entry: bash -c 'npm run build'
+        language: system
+        pass_filenames: false
