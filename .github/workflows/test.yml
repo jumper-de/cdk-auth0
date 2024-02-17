@@ -21,3 +21,6 @@ jobs:
     needs: build
     permissions:
       contents: read
+    steps:
+      - name: deploy
+        uses: actions/deploy-pages@v2
