@@ -7,7 +7,10 @@
     "cdk",
     "awscdk",
     "aws-cdk",
-    "auth0"
+    "auth0",
+    "oauth",
+    "oauth2",
+    "authentication"
   ],
   "homepage": "https://github.com/jumper-de/cdk-auth0",
   "bugs": "https://github.com/jumper-de/cdk-auth0/issues",
@@ -33,29 +36,42 @@
     "build": "jsii",
     "prepack": "jsii"
   },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-packagejson"
+    ],
+    "tabWidth": 2,
+    "overrides": [
+      {
+        "files": "*.sublime-project",
+        "options": {
+          "parser": "json",
+          "singleQuote": false
+        }
+      }
+    ]
+  },
   "dependencies": {
     "auth0": "^4.3.1"
   },
   "devDependencies": {
     "@aws-sdk/client-secrets-manager": "^3.515.0",
-    "@flit/lambda-tools": "*",
-    "@types/aws-lambda": "^8.10.133",
+    "@types/aws-lambda": "^8.10.134",
     "@types/node": "^20.11.19",
-    "aws-cdk-lib": "2.128.0",
-    "constructs": "10.3.0",
+    "aws-cdk-lib": "^2.100.0",
+    "constructs": "^10.0.0",
     "jest": "^29.7.0",
-    "jsii": "^5.3.18",
+    "jsii": "^5.3.20",
     "jsii-pacmak": "^1.94.0",
-    "ts-jest": "^29.1.2",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3",
     "prettier": "^3.2.5",
     "prettier-plugin-packagejson": "^2.4.11",
-    "prettier-plugin-svelte": "^3.2.1"
+    "prettier-plugin-svelte": "^3.2.1",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.3.3"
   },
   "peerDependencies": {
-    "aws-cdk-lib": "2.128.0",
-    "constructs": "10.3.0"
+    "aws-cdk-lib": "^2.100.0",
+    "constructs": "^10.0.0"
   },
   "bundleDependencies": [
     "auth0"

@@ -9,13 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: test
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
+        name: install
         with:
           node-version: 20.x
           cache: "npm"
-      - run: npm ci
-      - run: pre-commit run --all-files
+        run: npm ci
+      - uses: pre-commit/action@v3.0.1
+      - uses: pre-commit-ci/lite-action@v1.0.2
+        if: always()
   deploy:
     runs-on: ubuntu-latest
     needs: build
