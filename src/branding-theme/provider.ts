@@ -10,14 +10,14 @@ export class Provider extends AwsProvider {
   constructor(scope: Construct, id: string) {
     super(scope, id, {
       onEventHandler: new LambdaBase(scope, `${id}OnEventHandler`, {
-        entry: join(__dirname, "../../../src/branding-theme/handler.ts"),
+        entry: join(__dirname, "./../../src/branding-theme/handler.ts"),
       }),
     });
   }
 
   static getOrCreate(scope: Construct, apiSecret: ISecret) {
     const stack = Stack.of(scope);
-    const id = "Auth0ActionProvider";
+    const id = "Auth0BrandingThemeProvider";
     const provider =
       (stack.node.tryFindChild(id) as Provider) || new Provider(stack, id);
 
