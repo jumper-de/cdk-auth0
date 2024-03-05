@@ -57,56 +57,63 @@ export async function handler(event: CdkCustomResourceEvent) {
           },
           fonts: {
             body_text: {
-              bold: event.ResourceProperties.fonts.bodyText.bold,
-              size: event.ResourceProperties.fonts.bodyText.size,
+              bold: event.ResourceProperties.fonts.bodyText.bold === "true",
+              size: Number(event.ResourceProperties.fonts.bodyText.size),
             },
             buttons_text: {
-              bold: event.ResourceProperties.fonts.buttonsText.bold,
-              size: event.ResourceProperties.fonts.buttonsText.size,
+              bold: event.ResourceProperties.fonts.buttonsText.bold === "true",
+              size: Number(event.ResourceProperties.fonts.buttonsText.size),
             },
             font_url: event.ResourceProperties.fonts.fontUrl,
             input_labels: {
-              bold: event.ResourceProperties.fonts.inputLabels.bold,
-              size: event.ResourceProperties.fonts.inputLabels.size,
+              bold: event.ResourceProperties.fonts.inputLabels.bold === "true",
+              size: Number(event.ResourceProperties.fonts.inputLabels.size),
             },
             links: {
-              bold: event.ResourceProperties.fonts.links.bold,
-              size: event.ResourceProperties.fonts.links.size,
+              bold: event.ResourceProperties.fonts.links.bold === "true",
+              size: Number(event.ResourceProperties.fonts.links.size),
             },
             links_style: event.ResourceProperties.fonts.linksStyle,
-            reference_text_size:
+            reference_text_size: Number(
               event.ResourceProperties.fonts.referenceTextSize,
+            ),
             subtitle: {
-              bold: event.ResourceProperties.fonts.subtitle.bold,
-              size: event.ResourceProperties.fonts.subtitle.size,
+              bold: event.ResourceProperties.fonts.subtitle.bold === "true",
+              size: Number(event.ResourceProperties.fonts.subtitle.size),
             },
             title: {
-              bold: event.ResourceProperties.fonts.title.bold,
-              size: event.ResourceProperties.fonts.title.size,
+              bold: event.ResourceProperties.fonts.title.bold === "true",
+              size: Number(event.ResourceProperties.fonts.title.size),
             },
           },
           borders: {
-            button_border_radius:
+            button_border_radius: Number(
               event.ResourceProperties.borders.buttonBorderRadius,
-            button_border_weight:
+            ),
+            button_border_weight: Number(
               event.ResourceProperties.borders.buttonBorderWeight,
+            ),
             buttons_style: event.ResourceProperties.borders.buttonsStyle,
-            input_border_radius:
+            input_border_radius: Number(
               event.ResourceProperties.borders.inputBorderRadius,
-            input_border_weight:
+            ),
+            input_border_weight: Number(
               event.ResourceProperties.borders.inputBorderWeight,
+            ),
             inputs_style: event.ResourceProperties.borders.inputsStyle,
             show_widget_shadow:
-              event.ResourceProperties.borders.showWidgetShadow,
-            widget_border_weight:
+              event.ResourceProperties.borders.showWidgetShadow === "true",
+            widget_border_weight: Number(
               event.ResourceProperties.borders.widgetBorderWeight,
-            widget_corner_radius:
+            ),
+            widget_corner_radius: Number(
               event.ResourceProperties.borders.widgetCornerRadius,
+            ),
           },
           widget: {
             header_text_alignment:
               event.ResourceProperties.widget.headerTextAlignment,
-            logo_height: event.ResourceProperties.widget.logoHeight,
+            logo_height: Number(event.ResourceProperties.widget.logoHeight),
             logo_position: event.ResourceProperties.widget.logoPosition,
             logo_url: event.ResourceProperties.widget.logoUrl,
             social_buttons_layout:
@@ -161,56 +168,63 @@ export async function handler(event: CdkCustomResourceEvent) {
           },
           fonts: {
             body_text: {
-              bold: event.ResourceProperties.fonts.bodyText.bold,
-              size: event.ResourceProperties.fonts.bodyText.size,
+              bold: event.ResourceProperties.fonts.bodyText.bold === "true",
+              size: Number(event.ResourceProperties.fonts.bodyText.size),
             },
             buttons_text: {
-              bold: event.ResourceProperties.fonts.buttonsText.bold,
-              size: event.ResourceProperties.fonts.buttonsText.size,
+              bold: event.ResourceProperties.fonts.buttonsText.bold === "true",
+              size: Number(event.ResourceProperties.fonts.buttonsText.size),
             },
             font_url: event.ResourceProperties.fonts.fontUrl,
             input_labels: {
-              bold: event.ResourceProperties.fonts.inputLabels.bold,
-              size: event.ResourceProperties.fonts.inputLabels.size,
+              bold: event.ResourceProperties.fonts.inputLabels.bold === "true",
+              size: Number(event.ResourceProperties.fonts.inputLabels.size),
             },
             links: {
-              bold: event.ResourceProperties.fonts.links.bold,
-              size: event.ResourceProperties.fonts.links.size,
+              bold: event.ResourceProperties.fonts.links.bold === "true",
+              size: Number(event.ResourceProperties.fonts.links.size),
             },
             links_style: event.ResourceProperties.fonts.linksStyle,
-            reference_text_size:
+            reference_text_size: Number(
               event.ResourceProperties.fonts.referenceTextSize,
+            ),
             subtitle: {
-              bold: event.ResourceProperties.fonts.subtitle.bold,
-              size: event.ResourceProperties.fonts.subtitle.size,
+              bold: event.ResourceProperties.fonts.subtitle.bold === "true",
+              size: Number(event.ResourceProperties.fonts.subtitle.size),
             },
             title: {
-              bold: event.ResourceProperties.fonts.title.bold,
-              size: event.ResourceProperties.fonts.title.size,
+              bold: event.ResourceProperties.fonts.title.bold === "true",
+              size: Number(event.ResourceProperties.fonts.title.size),
             },
           },
           borders: {
-            button_border_radius:
+            button_border_radius: Number(
               event.ResourceProperties.borders.buttonBorderRadius,
-            button_border_weight:
+            ),
+            button_border_weight: Number(
               event.ResourceProperties.borders.buttonBorderWeight,
+            ),
             buttons_style: event.ResourceProperties.borders.buttonsStyle,
-            input_border_radius:
+            input_border_radius: Number(
               event.ResourceProperties.borders.inputBorderRadius,
-            input_border_weight:
+            ),
+            input_border_weight: Number(
               event.ResourceProperties.borders.inputBorderWeight,
+            ),
             inputs_style: event.ResourceProperties.borders.inputsStyle,
             show_widget_shadow:
-              event.ResourceProperties.borders.showWidgetShadow,
-            widget_border_weight:
+              event.ResourceProperties.borders.showWidgetShadow === "true",
+            widget_border_weight: Number(
               event.ResourceProperties.borders.widgetBorderWeight,
-            widget_corner_radius:
+            ),
+            widget_corner_radius: Number(
               event.ResourceProperties.borders.widgetCornerRadius,
+            ),
           },
           widget: {
             header_text_alignment:
               event.ResourceProperties.widget.headerTextAlignment,
-            logo_height: event.ResourceProperties.widget.logoHeight,
+            logo_height: Number(event.ResourceProperties.widget.logoHeight),
             logo_position: event.ResourceProperties.widget.logoPosition,
             logo_url: event.ResourceProperties.widget.logoUrl,
             social_buttons_layout:

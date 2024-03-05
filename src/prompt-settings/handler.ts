@@ -27,27 +27,25 @@ export async function handler(event: CdkCustomResourceEvent) {
 
   switch (event.RequestType) {
     case "Create": {
-      await auth0.branding.updateSettings({
-        logo_url: event.ResourceProperties.logoUrl,
-        favicon_url: event.ResourceProperties.faviconUrl,
-        colors: event.ResourceProperties.colors,
-        ...(event.ResourceProperties.fontUrl
-          ? { font: { url: event.ResourceProperties.fontUrl } }
-          : {}),
+      await auth0.prompts.update({
+        universal_login_experience:
+          event.ResourceProperties.universalLoginExperience,
+        identifier_first: event.ResourceProperties.identifierFirst === "true",
+        webauthn_platform_first_factor:
+          event.ResourceProperties.webauthnPlatformFirstFactor === "true",
       });
 
       return {
-        PhysicalResourceId: "brandingSettings",
+        PhysicalResourceId: "promptSettings",
       };
     }
     case "Update": {
-      await auth0.branding.updateSettings({
-        logo_url: event.ResourceProperties.logoUrl,
-        favicon_url: event.ResourceProperties.faviconUrl,
-        colors: event.ResourceProperties.colors,
-        ...(event.ResourceProperties.fontUrl
-          ? { font: { url: event.ResourceProperties.fontUrl } }
-          : {}),
+      await auth0.prompts.update({
+        universal_login_experience:
+          event.ResourceProperties.universalLoginExperience,
+        identifier_first: event.ResourceProperties.identifierFirst === "true",
+        webauthn_platform_first_factor:
+          event.ResourceProperties.webauthnPlatformFirstFactor === "true",
       });
 
       return {

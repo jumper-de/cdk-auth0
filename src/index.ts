@@ -6,6 +6,8 @@ export * from "./client-grant";
 export * from "./connection";
 export * from "./custom-domain";
 export * from "./email-provider";
+export * from "./prompt-settings";
 export * from "./resource-server";
+export * from "./tenant-settings";
 export * from "./trigger";
 export * from "./auth0-props";
