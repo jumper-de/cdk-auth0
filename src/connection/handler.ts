@@ -1,8 +1,8 @@
 import type { CdkCustomResourceEvent } from "aws-lambda";
 import { ManagementClient } from "auth0";
 
-import type { ENV } from ".";
-import { getSecretValue } from "./../../get-secret-value";
+import type { ENV } from "./../lambda-base";
+import { getSecretValue } from "./../get-secret-value";
 
 declare global {
   namespace NodeJS {

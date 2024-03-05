@@ -2,13 +2,16 @@ import { Construct } from "constructs";
 import { Stack } from "aws-cdk-lib";
 import { Provider as AwsProvider } from "aws-cdk-lib/custom-resources";
 import { ISecret } from "aws-cdk-lib/aws-secretsmanager";
+import { join } from "path";
 
-import { OnEventHandler } from "./on-event-handler";
+import { LambdaBase } from "../lambda-base";
 
 export class Provider extends AwsProvider {
   constructor(scope: Construct, id: string) {
     super(scope, id, {
-      onEventHandler: new OnEventHandler(scope, `${id}OnEventHandler`),
+      onEventHandler: new LambdaBase(scope, `${id}OnEventHandler`, {
+        entry: join(__dirname, "../../../src/resource-server/handler.ts"),
+      }),
     });
   }
 

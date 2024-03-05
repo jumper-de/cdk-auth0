@@ -1,4 +1,6 @@
 export * from "./action";
+export * from "./branding-settings";
+export * from "./branding-theme";
 export * from "./client";
 export * from "./client-grant";
 export * from "./connection";
