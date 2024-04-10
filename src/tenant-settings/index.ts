@@ -9,7 +9,7 @@ export interface TenantSettingsProps extends Auth0Props {
   readonly pictureUrl?: string;
   readonly supportEmail?: string;
   readonly supportUrl?: string;
-  readonly allowedLogoutUrls?: string;
+  readonly allowedLogoutUrls?: string[];
   readonly sessionLifetime?: Duration;
   readonly idleSessionLifetime?: Duration;
 }
@@ -29,8 +29,8 @@ export class TenantSettings extends CustomResource {
         supportEmail: props.supportEmail,
         supportUrl: props.supportUrl,
         allowedLogoutUrls: props.allowedLogoutUrls,
-        sessionLifetime: props.sessionLifetime?.toHours(),
-        idleSessionLifetime: props.idleSessionLifetime?.toHours(),
+        sessionLifetime: props.sessionLifetime?.toHours() || 72,
+        idleSessionLifetime: props.idleSessionLifetime?.toHours() || 168,
       },
     });
   }
