@@ -14,16 +14,16 @@ export interface JwtProps {
 
 export interface RefreshTokenProps {
   /**
-   * @deafult rotating
+   * @default rotating
    */
   readonly rotationType?: "rotating" | "non-rotating";
   /**
-   * @deafult expiring
+   * @default expiring
    */
   readonly expirationType?: "expiring" | "non-expiring";
   /**
    * Period (in seconds) where the previous refresh token can be exchanged without triggering breach detection
-   * @deafult 0
+   * @default 0
    */
   readonly leeway?: Duration;
   /**
