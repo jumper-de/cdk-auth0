@@ -236,8 +236,7 @@ export class Client extends CustomResource {
         allowedClients: props.allowedClients || [],
         allowedLogoutUrls: props.allowedLogoutUrls || [],
         grantTypes: props.grantTypes || ["implicit", "authorization_code"],
-        tokenEndpointAuthMethod:
-          props.tokenEndpointAuthMethod || "none",
+        tokenEndpointAuthMethod: props.tokenEndpointAuthMethod || "none",
         appType: props.appType,
         isFirstParty: props.isFirstParty || false,
         oidcConformant: props.oidcConformant || false,
