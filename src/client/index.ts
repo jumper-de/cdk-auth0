@@ -102,9 +102,10 @@ export interface ClientProps extends Auth0Props {
   >;
   /**
    * Defines the requested authentication method for the token endpoint. Can be none (public client without a client secret), client_secret_post (client uses HTTP POST parameters), or client_secret_basic (client uses HTTP Basic)
-   * @defulat none
+   * @default none
    */
   readonly tokenEndpointAuthMethod?:
+    | "none"
     | "client_secret_post"
     | "client_secret_basic";
   /**
@@ -236,7 +237,7 @@ export class Client extends CustomResource {
         allowedLogoutUrls: props.allowedLogoutUrls || [],
         grantTypes: props.grantTypes || ["implicit", "authorization_code"],
         tokenEndpointAuthMethod:
-          props.tokenEndpointAuthMethod || "client_secret_basic",
+          props.tokenEndpointAuthMethod || "none",
         appType: props.appType,
         isFirstParty: props.isFirstParty || false,
         oidcConformant: props.oidcConformant || false,
