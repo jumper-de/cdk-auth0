@@ -76,9 +76,10 @@ export class ExampleStack extends Stack {
       name: "web-client",
       appType: "regular_web",
       isFirstParty: true,
-      initiateLoginUri: `https://test.com/auth`,
+      tokenEndpointAuthMethod: "client_secret_basic",
+      initiateLoginUri: "https://test.com/auth",
       callbacks: ["https://test.com/auth/callback"],
-      allowedLogoutUrls: [`https://test.com`],
+      allowedLogoutUrls: ["https://test.com"],
       oidcConformant: true,
       refreshToken: {
         rotationType: "rotating",
