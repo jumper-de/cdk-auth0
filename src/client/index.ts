@@ -80,7 +80,7 @@ export interface ClientProps extends Auth0Props {
   /**
    * Metadata associated with the client, in the form of an object with string values (max 255 chars). Maximum of 10 metadata properties allowed. Field names (max 255 chars) are alphanumeric and may only include the following special characters: :,-+=_*?"/()><@ [Tab][Space]
    */
-  readonly clientMetadata?: {[key: string]: string};
+  readonly clientMetadata?: { [key: string]: string };
   /**
    * List of allow clients and API ids that are allowed to make delegation requests. Empty means all all your clients are allowed
    */
