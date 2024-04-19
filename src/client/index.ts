@@ -78,6 +78,10 @@ export interface ClientProps extends Auth0Props {
    */
   readonly clientAliases?: Array<string>;
   /**
+   * Metadata associated with the client, in the form of an object with string values (max 255 chars). Maximum of 10 metadata properties allowed. Field names (max 255 chars) are alphanumeric and may only include the following special characters: :,-+=_*?"/()><@ [Tab][Space]
+   */
+  readonly clientMetadata?: { [key: string]: string };
+  /**
    * List of allow clients and API ids that are allowed to make delegation requests. Empty means all all your clients are allowed
    */
   readonly allowedClients?: Array<string>;
@@ -233,6 +237,7 @@ export class Client extends CustomResource {
         allowedOrigins: props.allowedOrigins || [],
         webOrigins: props.webOrigins || [],
         clientAliases: props.clientAliases || [],
+        clientMetadata: props.clientMetadata,
         allowedClients: props.allowedClients || [],
         allowedLogoutUrls: props.allowedLogoutUrls || [],
         grantTypes: props.grantTypes || ["implicit", "authorization_code"],
