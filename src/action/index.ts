@@ -36,7 +36,7 @@ export interface ActionProps extends Auth0Props {
   readonly code: string;
   readonly dependencies?: Array<ActionDependencyProps>;
   readonly supportedTriggers: Array<ActionTriggerProps>;
-  readonly runtime: "node12" | "node16" | "node18";
+  readonly runtime: "node12" | "node16" | "node18" | "node18-actions";
   readonly secrets?: Array<ActionSecretProps>;
 }
 
