@@ -15,7 +15,7 @@ export interface RoleProps extends Auth0Props {
 }
 
 export class Role extends CustomResource {
-  public readonly roleId = this.getAttString('roleId');
+  public readonly roleId = this.getAttString("roleId");
 
   constructor(scope: Construct, id: string, props: RoleProps) {
     super(scope, id, {
@@ -23,14 +23,15 @@ export class Role extends CustomResource {
       serviceToken: Provider.getOrCreate(scope, props.apiSecret),
       properties: {
         secretName: props.apiSecret.secretName,
-        name: props.name ||
+        name:
+          props.name ||
           `${Names.uniqueResourceName(scope, {
             maxLength: 127 - id.length,
             allowedSpecialCharacters: "-",
             separator: "-",
           })}-${id}`,
-        description: props.description
-      }
+        description: props.description,
+      },
     });
   }
 }

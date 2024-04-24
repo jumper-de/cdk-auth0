@@ -3,7 +3,7 @@ import { Construct } from "constructs";
 import { Auth0Props } from "../auth0-props";
 import { Provider } from "./provider";
 
-export interface RolePermissionsProps extends Auth0Props{
+export interface RolePermissionsProps extends Auth0Props {
   /**
    * ID of the role to add permissions to.
    */
@@ -26,7 +26,6 @@ export interface PermissionProps {
 }
 
 export class RolePermissions extends CustomResource {
-
   constructor(scope: Construct, id: string, props: RolePermissionsProps) {
     super(scope, id, {
       resourceType: "Custom::Auth0Client",
@@ -34,8 +33,8 @@ export class RolePermissions extends CustomResource {
       properties: {
         secretName: props.apiSecret.secretName,
         roleId: props.roleId,
-        permissions: props.permissions || []
-      }
+        permissions: props.permissions || [],
+      },
     });
   }
 }

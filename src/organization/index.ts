@@ -63,7 +63,7 @@ export interface OrganizationProps extends Auth0Props {
 }
 
 export class Organization extends CustomResource {
-  public readonly organizationId = this.getAttString('organizationId');
+  public readonly organizationId = this.getAttString("organizationId");
   constructor(scope: Construct, id: string, props: OrganizationProps) {
     super(scope, id, {
       resourceType: "Custom::Auth0Client",
@@ -78,13 +78,15 @@ export class Organization extends CustomResource {
             separator: "-",
           })}-${id}`,
         displayName: props.displayName,
-        branding: props.branding ? {
-          logoUrl: props.branding?.logoUrl,
-          colors: {
-            primary: props.branding?.colors?.primary,
-            pageBackground: props.branding?.colors?.pageBackground
-          }
-        } : undefined,
+        branding: props.branding
+          ? {
+              logoUrl: props.branding?.logoUrl,
+              colors: {
+                primary: props.branding?.colors?.primary,
+                pageBackground: props.branding?.colors?.pageBackground,
+              },
+            }
+          : undefined,
         metadata: props.metadata,
         enabledConnections: props.enabledConnections || [],
       },
