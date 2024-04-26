@@ -62,6 +62,9 @@ export interface OrganizationProps extends Auth0Props {
   readonly enabledConnections?: EnabledConnectionProps;
 }
 
+/**
+ * @category Constructs
+ */
 export class Organization extends CustomResource {
   public readonly organizationId = this.getAttString("organizationId");
   constructor(scope: Construct, id: string, props: OrganizationProps) {

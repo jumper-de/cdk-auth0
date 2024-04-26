@@ -27,10 +27,18 @@ export async function handler(event: CdkCustomResourceEvent) {
   switch (event.RequestType) {
     case "Create": {
       const role = (
-        await auth0.roles.create({
-          name: event.ResourceProperties.name,
-          description: event.ResourceProperties.description,
-        })
+        event.ResourceProperties.roleId
+          ? await auth0.roles.update(
+              { id: event.ResourceProperties.roleId },
+              {
+                name: event.ResourceProperties.name,
+                description: event.ResourceProperties.description,
+              },
+            )
+          : await auth0.roles.create({
+              name: event.ResourceProperties.name,
+              description: event.ResourceProperties.description,
+            })
       ).data;
 
       return {
