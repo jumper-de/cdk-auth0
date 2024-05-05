@@ -28,6 +28,72 @@ export async function handler(event: CdkCustomResourceEvent) {
   switch (event.RequestType) {
     case "Create": {
       await auth0.tenants.updateSettings({
+        change_password: {
+          enabled: event.ResourceProperties.changePassword.enabled === "true",
+          html: event.ResourceProperties.changePassword.html,
+        },
+        device_flow: {
+          charset: event.ResourceProperties.deviceFlow.charset,
+          mask: event.ResourceProperties.deviceFlow.mask,
+        },
+        guardian_mfa_page: {
+          enabled: event.ResourceProperties.guardianMfaPage.enabled === "true",
+          html: event.ResourceProperties.guardianMfaPage.html,
+        },
+        default_audience: event.ResourceProperties.defaultAudience,
+        default_directory: event.ResourceProperties.defaultDirectory,
+        error_page: {
+          html: event.ResourceProperties.errorPage.html,
+          show_log_link:
+            event.ResourceProperties.errorPage.showLogLink === "true",
+          url: event.ResourceProperties.errorPage.url,
+        },
+        flags: {
+          enable_client_connections:
+            event.ResourceProperties.flags.enableClientConnections === "true",
+          enable_apis_section:
+            event.ResourceProperties.flags.enableApisSection === "true",
+          enable_pipeline2:
+            event.ResourceProperties.flags.enablePipeline2 === "true",
+          enable_dynamic_client_registration:
+            event.ResourceProperties.flags.enableDynamicClientRegistration ===
+            "true",
+          enable_custom_domain_in_emails:
+            event.ResourceProperties.flags.enableCustomDomainInEmails ===
+            "true",
+          enable_legacy_profile:
+            event.ResourceProperties.flags.enableLegacyProfile === "true",
+          enable_sso: event.ResourceProperties.flags.enableSso === "true",
+          disable_clickjack_protection_headers:
+            event.ResourceProperties.flags.disableClickjackProtectionHeaders ===
+            "true",
+          no_disclose_enterprise_connections:
+            event.ResourceProperties.flags.noDiscloseEnterpriseConnections ===
+            "true",
+          disable_management_api_sms_obfuscation:
+            event.ResourceProperties.flags
+              .disableManagementApiSmsObfuscation === "true",
+          enforce_client_authentication_on_passwordless_start:
+            event.ResourceProperties.flags
+              .enforceClientAuthenticationOnPasswordlessStart === "true",
+          trust_azure_adfs_email_verified_connection_property:
+            event.ResourceProperties.flags
+              .trustAzureAdfsEmailVerifiedConnectionProperty === "true",
+          enable_adfs_waad_email_verification:
+            event.ResourceProperties.flags.enableAdfsWaadEmailVerification ===
+            "true",
+          revoke_refresh_token_grant:
+            event.ResourceProperties.flags.revokeRefreshTokenGrant === "true",
+          dashboard_log_streams_next:
+            event.ResourceProperties.flags.dashboardLogStreamsNext === "true",
+          dashboard_insights_view:
+            event.ResourceProperties.flags.dashboardInsightsView === "true",
+          disable_fields_map_fix:
+            event.ResourceProperties.flags.disableFieldsMapFix === "true",
+          mfa_show_factor_list_on_enrollment:
+            event.ResourceProperties.flags.mfaShowFactorListOnEnrollment ===
+            "true",
+        },
         friendly_name: event.ResourceProperties.friendlyName,
         picture_url: event.ResourceProperties.pictureUrl,
         support_email: event.ResourceProperties.supportEmail,
@@ -37,6 +103,10 @@ export async function handler(event: CdkCustomResourceEvent) {
         idle_session_lifetime: Number(
           event.ResourceProperties.idleSessionLifetime,
         ),
+        sandbox_version: event.ResourceProperties.sandboxVersion,
+        default_redirection_uri: event.ResourceProperties.defaultRedirectionUri,
+        enabled_locales: event.ResourceProperties.enabledLocales,
+        session_cookie: event.ResourceProperties.sessionCookie,
       });
 
       return {
@@ -45,6 +115,72 @@ export async function handler(event: CdkCustomResourceEvent) {
     }
     case "Update": {
       await auth0.tenants.updateSettings({
+        change_password: {
+          enabled: event.ResourceProperties.changePassword.enabled === "true",
+          html: event.ResourceProperties.changePassword.html,
+        },
+        device_flow: {
+          charset: event.ResourceProperties.deviceFlow.charset,
+          mask: event.ResourceProperties.deviceFlow.mask,
+        },
+        guardian_mfa_page: {
+          enabled: event.ResourceProperties.guardianMfaPage.enabled === "true",
+          html: event.ResourceProperties.guardianMfaPage.html,
+        },
+        default_audience: event.ResourceProperties.defaultAudience,
+        default_directory: event.ResourceProperties.defaultDirectory,
+        error_page: {
+          html: event.ResourceProperties.errorPage.html,
+          show_log_link:
+            event.ResourceProperties.errorPage.showLogLink === "true",
+          url: event.ResourceProperties.errorPage.url,
+        },
+        flags: {
+          enable_client_connections:
+            event.ResourceProperties.flags.enableClientConnections === "true",
+          enable_apis_section:
+            event.ResourceProperties.flags.enableApisSection === "true",
+          enable_pipeline2:
+            event.ResourceProperties.flags.enablePipeline2 === "true",
+          enable_dynamic_client_registration:
+            event.ResourceProperties.flags.enableDynamicClientRegistration ===
+            "true",
+          enable_custom_domain_in_emails:
+            event.ResourceProperties.flags.enableCustomDomainInEmails ===
+            "true",
+          enable_legacy_profile:
+            event.ResourceProperties.flags.enableLegacyProfile === "true",
+          enable_sso: event.ResourceProperties.flags.enableSso === "true",
+          disable_clickjack_protection_headers:
+            event.ResourceProperties.flags.disableClickjackProtectionHeaders ===
+            "true",
+          no_disclose_enterprise_connections:
+            event.ResourceProperties.flags.noDiscloseEnterpriseConnections ===
+            "true",
+          disable_management_api_sms_obfuscation:
+            event.ResourceProperties.flags
+              .disableManagementApiSmsObfuscation === "true",
+          enforce_client_authentication_on_passwordless_start:
+            event.ResourceProperties.flags
+              .enforceClientAuthenticationOnPasswordlessStart === "true",
+          trust_azure_adfs_email_verified_connection_property:
+            event.ResourceProperties.flags
+              .trustAzureAdfsEmailVerifiedConnectionProperty === "true",
+          enable_adfs_waad_email_verification:
+            event.ResourceProperties.flags.enableAdfsWaadEmailVerification ===
+            "true",
+          revoke_refresh_token_grant:
+            event.ResourceProperties.flags.revokeRefreshTokenGrant === "true",
+          dashboard_log_streams_next:
+            event.ResourceProperties.flags.dashboardLogStreamsNext === "true",
+          dashboard_insights_view:
+            event.ResourceProperties.flags.dashboardInsightsView === "true",
+          disable_fields_map_fix:
+            event.ResourceProperties.flags.disableFieldsMapFix === "true",
+          mfa_show_factor_list_on_enrollment:
+            event.ResourceProperties.flags.mfaShowFactorListOnEnrollment ===
+            "true",
+        },
         friendly_name: event.ResourceProperties.friendlyName,
         picture_url: event.ResourceProperties.pictureUrl,
         support_email: event.ResourceProperties.supportEmail,
@@ -54,6 +190,10 @@ export async function handler(event: CdkCustomResourceEvent) {
         idle_session_lifetime: Number(
           event.ResourceProperties.idleSessionLifetime,
         ),
+        sandbox_version: event.ResourceProperties.sandboxVersion,
+        default_redirection_uri: event.ResourceProperties.defaultRedirectionUri,
+        enabled_locales: event.ResourceProperties.enabledLocales,
+        session_cookie: event.ResourceProperties.sessionCookie,
       });
 
       return {

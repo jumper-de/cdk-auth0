@@ -4,17 +4,8 @@ import { Auth0Props } from "../auth0-props";
 import { Construct } from "constructs";
 
 interface RoleBaseProps extends Auth0Props {
-  /**
-   * The role id.
-   */
   readonly roleId?: string;
-  /**
-   * Name of the role.
-   */
   readonly name?: string;
-  /**
-   * Description of the role
-   */
   readonly description?: string;
 }
 
@@ -63,8 +54,6 @@ export interface RoleFromIdProps extends RoleProps {
  * @category Constructs
  */
 export class Role extends RoleBase {
-  public readonly roleId = this.getAttString("roleId");
-
   constructor(scope: Construct, id: string, props: RoleProps) {
     super(scope, id, { ...props });
   }
