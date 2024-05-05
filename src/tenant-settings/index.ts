@@ -90,11 +90,6 @@ export interface FlagsProps {
    */
   readonly enableLegacyProfile?: boolean;
   /**
-   * Whether users are prompted to confirm log in before SSO redirection (false) or are not prompted (true).
-   * @default true
-   */
-  readonly enableSso?: boolean;
-  /**
    * Whether classic Universal Login prompts include additional security headers to prevent clickjacking (true) or no safeguard (false).
    * @default false
    */
@@ -110,13 +105,7 @@ export interface FlagsProps {
    */
   readonly disableManagementApiSmsObfuscation?: boolean;
   /**
-   * Enforce client authentication for passwordless start.
-   * @default true
-   */
-  readonly enforceClientAuthenticationOnPasswordlessStart?: boolean;
-  /**
    * Changes email_verified behavior for Azure AD/ADFS connections when enabled. Sets email_verified to false otherwise.
-   * @default false
    */
   readonly trustAzureAdfsEmailVerifiedConnectionProperty?: boolean;
   /**
@@ -277,17 +266,14 @@ export class TenantSettings extends CustomResource {
           enableCustomDomainInEmails:
             props.flags?.enableCustomDomainInEmails || false,
           enableLegacyProfile: props.flags?.enableLegacyProfile || false,
-          enableSso: props.flags?.enableSso || true,
           disableClickjackProtectionHeaders:
             props.flags?.disableClickjackProtectionHeaders || false,
           noDiscloseEnterpriseConnections:
             props.flags?.noDiscloseEnterpriseConnections || false,
           disableManagementApiSmsObfuscation:
             props.flags?.disableManagementApiSmsObfuscation || false,
-          enforceClientAuthenticationOnPasswordlessStart:
-            props.flags?.enforceClientAuthenticationOnPasswordlessStart || true,
           trustAzureAdfsEmailVerifiedConnectionProperty:
-            props.flags?.trustAzureAdfsEmailVerifiedConnectionProperty || false,
+            props.flags?.trustAzureAdfsEmailVerifiedConnectionProperty,
           enableAdfsWaadEmailVerification:
             props.flags?.enableAdfsWaadEmailVerification || false,
           revokeRefreshTokenGrant:
