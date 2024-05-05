@@ -32,9 +32,7 @@ export async function handler(event: CdkCustomResourceEvent) {
           ? await auth0.connections.update(
               { id: event.ResourceProperties.connectionId },
               {
-                display_name:
-                  event.ResourceProperties.displayName ||
-                  event.LogicalResourceId,
+                display_name: event.ResourceProperties.displayName,
                 enabled_clients: event.ResourceProperties.enabledClients,
                 is_domain_connection:
                   event.ResourceProperties.isDomainConnection === "true",
@@ -82,8 +80,7 @@ export async function handler(event: CdkCustomResourceEvent) {
         await auth0.connections.update(
           { id: event.PhysicalResourceId },
           {
-            display_name:
-              event.ResourceProperties.displayName || event.LogicalResourceId,
+            display_name: event.ResourceProperties.displayName,
             enabled_clients: event.ResourceProperties.enabledClients,
             is_domain_connection:
               event.ResourceProperties.isDomainConnection === "true",

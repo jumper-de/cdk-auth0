@@ -21,7 +21,7 @@ export interface DeviceFlowProps {
    * Character set used to generate a User Code. Can be base20 or digits.
    * @default base20
    */
-  readonly charset?: "base20" | "digits";
+  readonly charset: "base20" | "digits";
   /**
    * Mask used to format a generated User Code into a friendly, readable format.
    */
@@ -33,29 +33,29 @@ export interface GuardianMfaPageProps {
    * Whether to use the custom Guardian HTML (true) or the default Auth0 page (false).
    * @default false
    */
-  readonly enabled?: boolean;
+  readonly enabled: boolean;
   /**
    * Custom Guardian HTML (Liquid syntax is supported).
    */
-  readonly html?: string;
+  readonly html: string;
 }
 
 export interface ErrorPageProps {
   /**
    * Custom Error HTML (Liquid syntax is supported).
    */
-  readonly html?: string;
+  readonly html: string;
   /**
    * Whether to show the link to log as part of the default error page
    * (true) or not to show the link (false).
    * @default true
    */
-  readonly showLogLink?: boolean;
+  readonly showLogLink: boolean;
   /**
    * URL to redirect to when an error occurs instead of showing the default error page.
    * @format absolute-uri-or-empty
    */
-  readonly url?: string;
+  readonly url: string;
 }
 
 export interface FlagsProps {
@@ -66,70 +66,82 @@ export interface FlagsProps {
   readonly enableClientConnections?: boolean;
   /**
    * Whether the APIs section is enabled (true) or disabled (false).
+   * @default true
    */
   readonly enableApisSection?: boolean;
   /**
    * Whether advanced API Authorization scenarios are enabled (true) or disabled (false).
+   * @default true
    */
   readonly enablePipeline2?: boolean;
   /**
    * Whether third-party developers can dynamically register applications for your APIs (true) or not (false). This flag enables dynamic client registration.
+   * @default false
    */
   readonly enableDynamicClientRegistration?: boolean;
   /**
    * Whether emails sent by Auth0 for change password, verification etc. should use your verified custom domain (true) or your auth0.com sub-domain (false). Affects all emails, links, and URLs. Email will fail if the custom domain is not verified.
+   * @default false
    */
   readonly enableCustomDomainInEmails?: boolean;
   /**
    * Whether the public sign up process shows a user_exists error (true) or a generic error (false) if the user already exists.
+   * @default false
    */
   readonly enableLegacyProfile?: boolean;
   /**
    * Whether users are prompted to confirm log in before SSO redirection (false) or are not prompted (true).
+   * @default true
    */
   readonly enableSso?: boolean;
   /**
    * Whether classic Universal Login prompts include additional security headers to prevent clickjacking (true) or no safeguard (false).
+   * @default false
    */
   readonly disableClickjackProtectionHeaders?: boolean;
   /**
    * Do not Publish Enterprise Connections Information with IdP domains on the lock configuration file.
+   * @default false
    */
   readonly noDiscloseEnterpriseConnections?: boolean;
   /**
    * If true, SMS phone numbers will not be obfuscated in Management API GET calls.
+   * @default false
    */
   readonly disableManagementApiSmsObfuscation?: boolean;
   /**
    * Enforce client authentication for passwordless start.
+   * @default true
    */
   readonly enforceClientAuthenticationOnPasswordlessStart?: boolean;
   /**
    * Changes email_verified behavior for Azure AD/ADFS connections when enabled. Sets email_verified to false otherwise.
+   * @default false
    */
   readonly trustAzureAdfsEmailVerifiedConnectionProperty?: boolean;
   /**
    * Enables the email verification flow during login for Azure AD and ADFS connections.
+   * @default false
    */
   readonly enableAdfsWaadEmailVerification?: boolean;
   /**
    * Delete underlying grant when a Refresh Token is revoked via the Authentication API.
+   * @default false
    */
   readonly revokeRefreshTokenGrant?: boolean;
   /**
-   * Enables beta access to log streaming changes.
-   */
-  readonly dashboardLogStreamsNext?: boolean;
-  /**
    * Enables new insights activity page view.
+   * @default true
    */
   readonly dashboardInsightsView?: boolean;
   /**
    * Disables SAML fields map fix for bad mappings with repeated attributes.
+   * @default false
    */
   readonly disableFieldsMapFix?: boolean;
   /**
    * Used to allow users to pick what factor to enroll of the available MFA factors.
+   * @default false
    */
   readonly mfaShowFactorListOnEnrollment?: boolean;
 }
@@ -207,6 +219,7 @@ export interface TenantSettingsProps extends Auth0Props {
   readonly defaultRedirectionUri?: string;
   /**
    * Supported locales for the user interface.
+   * @default ["en"]
    */
   readonly enabledLocales?: string[];
   /**
@@ -236,13 +249,54 @@ export class TenantSettings extends CustomResource {
       serviceToken: Provider.getOrCreate(scope, props.apiSecret),
       properties: {
         secretName: props.apiSecret.secretName,
-        changePassword: props.changePassword,
-        deviceFlow: props.deviceFlow,
-        guardianMfaPage: props.guardianMfaPage,
+        changePassword: {
+          enabled: props.changePassword?.enabled || false,
+          html: props.changePassword?.html,
+        },
+        deviceFlow: {
+          charset: props.deviceFlow?.charset || "base20",
+          mask: props.deviceFlow?.mask,
+        },
+        guardianMfaPage: {
+          enabled: props.guardianMfaPage?.enabled || false,
+          html: props.guardianMfaPage?.html,
+        },
         defaultAudience: props.defaultAudience,
         defaultDirectory: props.defaultDirectory,
-        errorPage: props.errorPage,
-        flags: props.flags,
+        errorPage: {
+          html: props.errorPage?.html,
+          showLogLink: props.errorPage?.showLogLink || true,
+          url: props.errorPage?.url,
+        },
+        flags: {
+          enableClientConnections: props.flags?.enableClientConnections || true,
+          enableApisSection: props.flags?.enableApisSection || true,
+          enablePipeline2: props.flags?.enablePipeline2 || true,
+          enableDynamicClientRegistration:
+            props.flags?.enableDynamicClientRegistration || false,
+          enableCustomDomainInEmails:
+            props.flags?.enableCustomDomainInEmails || false,
+          enableLegacyProfile: props.flags?.enableLegacyProfile || false,
+          enableSso: props.flags?.enableSso || true,
+          disableClickjackProtectionHeaders:
+            props.flags?.disableClickjackProtectionHeaders || false,
+          noDiscloseEnterpriseConnections:
+            props.flags?.noDiscloseEnterpriseConnections || false,
+          disableManagementApiSmsObfuscation:
+            props.flags?.disableManagementApiSmsObfuscation || false,
+          enforceClientAuthenticationOnPasswordlessStart:
+            props.flags?.enforceClientAuthenticationOnPasswordlessStart || true,
+          trustAzureAdfsEmailVerifiedConnectionProperty:
+            props.flags?.trustAzureAdfsEmailVerifiedConnectionProperty || false,
+          enableAdfsWaadEmailVerification:
+            props.flags?.enableAdfsWaadEmailVerification || false,
+          revokeRefreshTokenGrant:
+            props.flags?.revokeRefreshTokenGrant || false,
+          dashboardInsightsView: props.flags?.dashboardInsightsView || true,
+          disableFieldsMapFix: props.flags?.disableFieldsMapFix || false,
+          mfaShowFactorListOnEnrollment:
+            props.flags?.mfaShowFactorListOnEnrollment || false,
+        },
         friendlyName: props.friendlyName,
         pictureUrl: props.pictureUrl,
         supportEmail: props.supportEmail,
@@ -252,7 +306,7 @@ export class TenantSettings extends CustomResource {
         idleSessionLifetime,
         sandboxVersion: props.sandboxVersion,
         defaultRedirectionUri: props.defaultRedirectionUri,
-        enabledLocales: props.enabledLocales,
+        enabledLocales: props.enabledLocales || ["en"],
         sessionCookie: props.sessionCookie,
       },
     });
