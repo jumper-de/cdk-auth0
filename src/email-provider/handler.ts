@@ -25,19 +25,19 @@ export async function handler(event: CdkCustomResourceEvent) {
     clientSecret: auth0Api.clientSecret,
   });
 
-  let credentials;
+  let credentials: any = {};
   if (event.ResourceProperties.credentials) {
-    switch (event.ResourceProperties.credentials.credType) {
-      case "apikey": {
-        credentials = {
-          api_key: event.ResourceProperties.credentials.apiKey,
-        };
-        break;
-      }
+    switch (event.ResourceProperties.name) {
       case "azure_cs": {
         credentials = {
           connectionString:
             event.ResourceProperties.credentials.connectionString,
+        };
+        break;
+      }
+      case "mandrill": {
+        credentials = {
+          api_key: event.ResourceProperties.credentials.apiKey,
         };
         break;
       }
@@ -68,7 +68,7 @@ export async function handler(event: CdkCustomResourceEvent) {
       case "smtp": {
         credentials = {
           smtp_host: event.ResourceProperties.credentials.smtpHost,
-          smtp_port: event.ResourceProperties.credentials.smtpPort,
+          smtp_port: Number(event.ResourceProperties.credentials.smtpPort),
           smtp_user: event.ResourceProperties.credentials.smtpUser,
           smtp_pass: event.ResourceProperties.credentials.smtpPassword,
         };
@@ -111,7 +111,7 @@ export async function handler(event: CdkCustomResourceEvent) {
         name: event.ResourceProperties.name,
         enabled: true,
         default_from_address: event.ResourceProperties.defaultFromAddress,
-        credentials: event.ResourceProperties.credentials,
+        credentials: credentials,
       });
 
       return;
