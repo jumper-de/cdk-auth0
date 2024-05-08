@@ -20,14 +20,14 @@ export interface AzureProviderProps extends Auth0Props {
 /**
  * mandrill and sendgrid requires api_key
  */
-export interface MandrillCredentialsProps {
+export interface ApiKeyCredentialsProps {
   readonly apiKey: string;
 }
 
 export interface MandrillProviderProps extends Auth0Props {
   readonly name: "mandrill";
   readonly defaultFromAddress: string;
-  readonly credentials: MandrillCredentialsProps;
+  readonly credentials: ApiKeyCredentialsProps;
 }
 
 /**
@@ -59,6 +59,12 @@ export interface Microsoft365ProviderProps extends Auth0Props {
   readonly name: "ms365";
   readonly defaultFromAddress: string;
   readonly credentials: Microsoft365CredentialsProps;
+}
+
+export interface SendGridProviderProps extends Auth0Props {
+  readonly name: "sendgrid";
+  readonly defaultFromAddress: string;
+  readonly credentials: ApiKeyCredentialsProps;
 }
 
 /**
@@ -120,6 +126,7 @@ export class EmailProvider extends CustomResource {
       | MailgunProviderProps
       | Microsoft365ProviderProps
       | SesProviderProps
+      | SendGridProviderProps
       | SmtpProviderProps
       | SparkPostProviderProps,
   ) {
