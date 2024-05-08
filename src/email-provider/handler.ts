@@ -74,7 +74,7 @@ export async function handler(event: CdkCustomResourceEvent) {
         };
         break;
       }
-      case "SparkPost": {
+      case "sparkpost": {
         credentials = {
           api_key: event.ResourceProperties.credentials.apiKey,
           region: event.ResourceProperties.credentials.region || null,
