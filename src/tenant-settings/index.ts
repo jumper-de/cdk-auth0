@@ -21,9 +21,10 @@ export interface DeviceFlowProps {
    * Character set used to generate a User Code. Can be base20 or digits.
    * @default base20
    */
-  readonly charset: "base20" | "digits";
+  readonly charset?: "base20" | "digits";
   /**
    * Mask used to format a generated User Code into a friendly, readable format.
+   * @default ****-****
    */
   readonly mask?: string;
 }
@@ -33,29 +34,29 @@ export interface GuardianMfaPageProps {
    * Whether to use the custom Guardian HTML (true) or the default Auth0 page (false).
    * @default false
    */
-  readonly enabled: boolean;
+  readonly enabled?: boolean;
   /**
    * Custom Guardian HTML (Liquid syntax is supported).
    */
-  readonly html: string;
+  readonly html?: string;
 }
 
 export interface ErrorPageProps {
   /**
    * Custom Error HTML (Liquid syntax is supported).
    */
-  readonly html: string;
+  readonly html?: string;
   /**
    * Whether to show the link to log as part of the default error page
    * (true) or not to show the link (false).
    * @default true
    */
-  readonly showLogLink: boolean;
+  readonly showLogLink?: boolean;
   /**
    * URL to redirect to when an error occurs instead of showing the default error page.
    * @format absolute-uri-or-empty
    */
-  readonly url: string;
+  readonly url?: string;
 }
 
 export interface FlagsProps {
@@ -244,7 +245,7 @@ export class TenantSettings extends CustomResource {
         },
         deviceFlow: {
           charset: props.deviceFlow?.charset || "base20",
-          mask: props.deviceFlow?.mask,
+          mask: props.deviceFlow?.mask || "****-****",
         },
         guardianMfaPage: {
           enabled: props.guardianMfaPage?.enabled || false,
