@@ -35,7 +35,8 @@ export async function handler(event: CdkCustomResourceEvent) {
         };
         break;
       }
-      case "mandrill": {
+      case "mandrill":
+      case "sendgrid": {
         credentials = {
           api_key: event.ResourceProperties.credentials.apiKey,
         };
