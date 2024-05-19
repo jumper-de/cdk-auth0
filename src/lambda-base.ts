@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { Duration } from "aws-cdk-lib";
+import { Duration, Stack } from "aws-cdk-lib";
 import {
   Runtime,
   ParamsAndSecretsLayerVersion,
@@ -27,7 +27,7 @@ export interface ENV extends ENV_DEFAULT {
 export class LambdaBase extends NodejsFunction {
   constructor(scope: Construct, id: string, props: NodejsFunctionProps) {
     super(scope, id, {
-      runtime: Runtime.NODEJS_LATEST,
+      runtime: Runtime.NODEJS_20_X,
       architecture: Architecture.ARM_64,
       timeout: Duration.minutes(2),
       logRetention: RetentionDays.ONE_WEEK,
@@ -58,7 +58,9 @@ export class LambdaRole extends Role {
                 "logs:CreateLogStream",
                 "logs:PutLogEvents",
               ],
-              resources: ["*"],
+              resources: [
+                `arn:aws:logs:*:${Stack.of(scope).account}:log-group:*`,
+              ],
             }),
           ],
         }),
