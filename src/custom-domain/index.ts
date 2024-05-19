@@ -1,11 +1,10 @@
 import { Construct } from "constructs";
 import { CustomResource } from "aws-cdk-lib";
-import { ISecret } from "aws-cdk-lib/aws-secretsmanager";
 
+import { Auth0Props } from "../auth0-props";
 import { Provider } from "./provider";
 
-export interface CustomDomainProps {
-  readonly apiSecret: ISecret;
+export interface CustomDomainProps extends Auth0Props {
   readonly domain: string;
   readonly domainType?: "auth0_managed_certs" | "self_managed_certs";
   readonly verificationMethod?: "txt";

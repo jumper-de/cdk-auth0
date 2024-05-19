@@ -11,6 +11,13 @@ import {
   NodejsFunctionProps,
 } from "aws-cdk-lib/aws-lambda-nodejs";
 import { RetentionDays } from "aws-cdk-lib/aws-logs";
+import {
+  PolicyDocument,
+  PolicyStatement,
+  Role,
+  ServicePrincipal,
+} from "aws-cdk-lib/aws-iam";
+
 import type { ENV_DEFAULT } from "./environment";
 
 export interface ENV extends ENV_DEFAULT {
@@ -20,7 +27,7 @@ export interface ENV extends ENV_DEFAULT {
 export class LambdaBase extends NodejsFunction {
   constructor(scope: Construct, id: string, props: NodejsFunctionProps) {
     super(scope, id, {
-      runtime: Runtime.NODEJS_20_X,
+      runtime: Runtime.NODEJS_LATEST,
       architecture: Architecture.ARM_64,
       timeout: Duration.minutes(2),
       logRetention: RetentionDays.ONE_WEEK,
@@ -32,7 +39,30 @@ export class LambdaBase extends NodejsFunction {
         sourcesContent: false,
         externalModules: ["@aws-sdk"],
       },
+      role: new LambdaRole(scope, `${id}Role`),
       ...props,
+    });
+  }
+}
+
+export class LambdaRole extends Role {
+  constructor(scope: Construct, id: string) {
+    super(scope, id, {
+      assumedBy: new ServicePrincipal("lambda.amazonaws.com"),
+      inlinePolicies: {
+        logging: new PolicyDocument({
+          statements: [
+            new PolicyStatement({
+              actions: [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              resources: ["*"],
+            }),
+          ],
+        }),
+      },
     });
   }
 }
