@@ -59,7 +59,9 @@ export class LambdaRole extends Role {
                 "logs:PutLogEvents",
               ],
               resources: [
-                `arn:aws:logs:*:${Stack.of(scope).account}:log-group:*`,
+                `arn:aws:logs:${Stack.of(scope).region}:${
+                  Stack.of(scope).account
+                }:log-group:/aws/lambda/*`,
               ],
             }),
           ],
