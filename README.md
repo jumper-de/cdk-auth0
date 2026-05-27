@@ -112,3 +112,29 @@ export class ExampleStack extends Stack {
 	}
 }
 ```
+
+#### Action secrets
+
+An `Action` can be given [secrets](https://auth0.com/docs/customize/actions/manage-secrets) that are exposed to the action code via `event.secrets`. A secret value can either be provided inline as a plaintext `value`, or sourced from an [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/) secret so that it never appears in the synthesized CloudFormation template:
+
+```typescript
+const apiKeys = Secret.fromSecretNameV2(this, "ApiKeys", "MyApiKeys");
+
+new Action(this, "Auth0SecretAction", {
+	apiSecret: auth0Secret,
+	supportedTriggers: [{ id: "post-login", version: "v3" }],
+	code: `
+    exports.onExecutePostLogin = async (event, api) => {
+      console.log(event.secrets.API_KEY);
+    }
+  `,
+	secrets: [
+		// Plaintext value (embedded in the template).
+		{ name: "STATIC_KEY", value: "secret123" },
+		// Read from the `apiKey` field of the `MyApiKeys` secret at deploy time.
+		{ name: "API_KEY", fromSecret: { secret: apiKeys, field: "apiKey" } },
+	],
+});
+```
+
+Provide exactly one of `value` or `fromSecret` per entry; when `fromSecret` is set, its `field` selects which key of the secret's JSON object to use. The value is resolved once during deployment, so if the secret rotates afterwards Auth0 keeps the previously deployed value until the next deployment.
