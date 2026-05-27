@@ -10,6 +10,44 @@ declare global {
 	}
 }
 
+interface ActionSecret {
+	name: string;
+	value?: string;
+	secretArn?: string;
+	secretField?: string;
+}
+
+async function resolveSecrets(secrets?: Array<ActionSecret>) {
+	if (!secrets) {
+		return undefined;
+	}
+
+	return Promise.all(
+		secrets.map(async (secret) => {
+			if (!secret.secretArn) {
+				return { name: secret.name, value: secret.value };
+			}
+
+			const parsed = JSON.parse(
+				await getSecretValue(
+					secret.secretArn,
+					process.env.PARAMETERS_SECRETS_EXTENSION_HTTP_PORT,
+					process.env.AWS_SESSION_TOKEN,
+				),
+			);
+
+			const value = parsed[secret.secretField!];
+			if (value === undefined) {
+				throw new Error(
+					`Key "${secret.secretField}" not found in secret "${secret.secretArn}"`,
+				);
+			}
+
+			return { name: secret.name, value: String(value) };
+		}),
+	);
+}
+
 export async function handler(event: CdkCustomResourceEvent) {
 	const auth0Api = JSON.parse(
 		await getSecretValue(
@@ -34,7 +72,7 @@ export async function handler(event: CdkCustomResourceEvent) {
 					dependencies: event.ResourceProperties.dependencies,
 					supported_triggers: event.ResourceProperties.supportedTriggers,
 					runtime: event.ResourceProperties.runtime,
-					secrets: event.ResourceProperties.secrets,
+					secrets: await resolveSecrets(event.ResourceProperties.secrets),
 				})
 			).id;
 
@@ -62,7 +100,7 @@ export async function handler(event: CdkCustomResourceEvent) {
 				dependencies: event.ResourceProperties.dependencies,
 				supported_triggers: event.ResourceProperties.supportedTriggers,
 				runtime: event.ResourceProperties.runtime,
-				secrets: event.ResourceProperties.secrets,
+				secrets: await resolveSecrets(event.ResourceProperties.secrets),
 			});
 
 			while (

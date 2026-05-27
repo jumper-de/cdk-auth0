@@ -16,13 +16,21 @@ export class Provider extends AwsProvider {
 		});
 	}
 
-	static getOrCreate(scope: Construct, apiSecret: ISecret) {
+	static getOrCreate(
+		scope: Construct,
+		apiSecret: ISecret,
+		secrets: Array<ISecret> = [],
+	) {
 		const stack = Stack.of(scope);
 		const id = "Auth0ActionProvider";
 		const provider =
 			(stack.node.tryFindChild(id) as Provider) || new Provider(stack, id);
 
 		apiSecret.grantRead(provider.onEventHandler);
+
+		for (const secret of secrets) {
+			secret.grantRead(provider.onEventHandler);
+		}
 
 		return provider.serviceToken;
 	}
