@@ -1,6 +1,6 @@
 {
 	"name": "@flit/cdk-auth0",
-	"version": "1.23.1",
+	"version": "1.24.0",
 	"description": "A collection of AWS CDK constructs to manager your Auth0 resources programmatically",
 	"keywords": [
 		"aws",
@@ -33,6 +33,10 @@
 		{
 			"name": "Cameron Moyer",
 			"url": "https://github.com/cmoyer2"
+		},
+		{
+			"name": "Cameron Moyer",
+			"url": "https://github.com/jack-poap"
 		}
 	],
 	"main": "./dist/index.js",
@@ -58,23 +62,23 @@
 		"useTabs": true
 	},
 	"dependencies": {
-		"auth0": "^5.9.1"
+		"auth0": "^5.11.0"
 	},
 	"devDependencies": {
-		"@aws-sdk/client-eventbridge": "^3.1045.0",
-		"@aws-sdk/client-secrets-manager": "^3.1045.0",
+		"@aws-sdk/client-eventbridge": "^3.1059.0",
+		"@aws-sdk/client-secrets-manager": "^3.1059.0",
 		"@types/aws-lambda": "^8.10.161",
-		"@types/node": "^25.6.2",
-		"aws-cdk-lib": "2.253.1",
+		"@types/node": "^25.9.1",
+		"aws-cdk-lib": "2.257.0",
 		"constructs": "10.6.0",
-		"jsii": "^5.9.39",
-		"jsii-pacmak": "^1.129.0",
+		"jsii": "^5.9.44",
+		"jsii-pacmak": "^1.133.0",
 		"prettier": "^3.8.3",
 		"prettier-plugin-packagejson": "^3.0.2",
 		"typescript": "^6.0.3"
 	},
 	"peerDependencies": {
-		"aws-cdk-lib": "^2.253.1",
+		"aws-cdk-lib": "^2.257.0",
 		"constructs": "^10.6.0"
 	},
 	"bundleDependencies": [
@@ -90,7 +94,10 @@
 		],
 		"tsc": {
 			"rootDir": "./src",
-			"outDir": "./dist"
+			"outDir": "./dist",
+			"types": [
+				"node"
+			]
 		},
 		"targets": {
 			"java": {

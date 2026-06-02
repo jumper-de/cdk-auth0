@@ -59,7 +59,7 @@ export interface ActionSecretSourceProps {
 	/**
 	 * The key within the JSON `secret` whose value will be used.
 	 */
-	readonly field: string;
+	readonly jsonField?: string;
 }
 
 export interface ActionSecretProps {
@@ -70,22 +70,9 @@ export interface ActionSecretProps {
 	/**
 	 * The plaintext value of the particular secret (e.g. `secret123`).
 	 *
-	 * Provide exactly one of `value` or `fromSecret`. Using `value` embeds the
-	 * literal secret in the synthesized CloudFormation template; prefer
-	 * `fromSecret` to keep it out of the template.
-	 *
 	 * @default - sourced from `fromSecret`
 	 */
-	readonly value?: string;
-	/**
-	 * Source the value from an AWS Secrets Manager secret instead of embedding
-	 * it in the template.
-	 *
-	 * Provide exactly one of `value` or `fromSecret`.
-	 *
-	 * @default - the literal `value` is used
-	 */
-	readonly fromSecret?: ActionSecretSourceProps;
+	readonly value: string | ActionSecretSourceProps;
 }
 
 export interface ActionProps extends Auth0Props {
@@ -127,19 +114,10 @@ export class Action extends CustomResource {
 	public readonly actionId = this.getAttString("actionId");
 
 	constructor(scope: Construct, id: string, props: ActionProps) {
-		for (const secret of props.secrets || []) {
-			const hasValue = secret.value !== undefined;
-			const hasSecret = secret.fromSecret !== undefined;
-			if (hasValue === hasSecret) {
-				throw new Error(
-					`Action secret "${secret.name}" must specify exactly one of "value" or "fromSecret".`,
-				);
-			}
-		}
-
 		const referencedSecrets = (props.secrets || [])
-			.map((secret) => secret.fromSecret?.secret)
-			.filter((secret): secret is ISecret => secret !== undefined);
+			.map((v) => v.value)
+			.filter((s) => typeof s !== "string")
+			.map((v) => v.secret);
 
 		super(scope, id, {
 			resourceType: "Custom::Auth0Action",
@@ -161,12 +139,20 @@ export class Action extends CustomResource {
 				dependencies: props.dependencies,
 				supportedTriggers: props.supportedTriggers,
 				runtime: props.runtime || "node22",
-				secrets: props.secrets?.map((secret) => ({
-					name: secret.name,
-					value: secret.value,
-					secretArn: secret.fromSecret?.secret.secretArn,
-					secretField: secret.fromSecret?.field,
-				})),
+				secrets: props.secrets?.map((s) => {
+					if (typeof s.value === "string") {
+						return {
+							name: s.name,
+							value: s.value,
+						};
+					} else {
+						return {
+							name: s.name,
+							secretArn: s.value.secret.secretArn,
+							jsonField: s.value.jsonField,
+						};
+					}
+				}),
 			},
 		});
 

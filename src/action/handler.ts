@@ -14,7 +14,7 @@ interface ActionSecret {
 	name: string;
 	value?: string;
 	secretArn?: string;
-	secretField?: string;
+	jsonField?: string;
 }
 
 async function resolveSecrets(secrets?: Array<ActionSecret>) {
@@ -28,18 +28,22 @@ async function resolveSecrets(secrets?: Array<ActionSecret>) {
 				return { name: secret.name, value: secret.value };
 			}
 
-			const parsed = JSON.parse(
-				await getSecretValue(
-					secret.secretArn,
-					process.env.PARAMETERS_SECRETS_EXTENSION_HTTP_PORT,
-					process.env.AWS_SESSION_TOKEN,
-				),
+			const secretValue = await getSecretValue(
+				secret.secretArn,
+				process.env.PARAMETERS_SECRETS_EXTENSION_HTTP_PORT,
+				process.env.AWS_SESSION_TOKEN,
 			);
 
-			const value = parsed[secret.secretField!];
+			if (!secret.jsonField) {
+				return { name: secret.name, value: secretValue };
+			}
+
+			const jsonValue = JSON.parse(secretValue);
+
+			const value = jsonValue[secret.jsonField];
 			if (value === undefined) {
 				throw new Error(
-					`Key "${secret.secretField}" not found in secret "${secret.secretArn}"`,
+					`Key "${secret.jsonField}" not found in secret "${secret.secretArn}"`,
 				);
 			}
 
