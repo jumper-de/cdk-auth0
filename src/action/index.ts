@@ -1,5 +1,6 @@
 import { Construct } from "constructs";
 import { CustomResource, Names } from "aws-cdk-lib";
+import { ISecret } from "aws-cdk-lib/aws-secretsmanager";
 
 import { Auth0Props } from "../auth0-props";
 import { Provider } from "./provider";
@@ -44,17 +45,47 @@ export interface ActionDependencyProps {
 	readonly registryUrl?: string;
 }
 
+export interface ActionSecretSourceProps {
+	/**
+	 * An [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/) secret
+	 * to source the value from. The secret must hold a JSON object; the value
+	 * of the `field` key is read at deploy time and stored in Auth0.
+	 *
+	 * The value is resolved once during deployment. If the secret rotates
+	 * afterwards, Auth0 keeps the previously deployed value until the next
+	 * deployment.
+	 */
+	readonly secret: ISecret;
+	/**
+	 * The key within the JSON `secret` whose value will be used.
+	 */
+	readonly field: string;
+}
+
 export interface ActionSecretProps {
 	/**
 	 * The name of the particular secret (e.g. `API_KEY`).
 	 */
 	readonly name: string;
 	/**
-	 * The value of the particular secret (e.g. `secret123`).
-	 * A secret's value can only be set upon creation.
-	 * A secret's value will never be returned by the API.
+	 * The plaintext value of the particular secret (e.g. `secret123`).
+	 *
+	 * Provide exactly one of `value` or `fromSecret`. Using `value` embeds the
+	 * literal secret in the synthesized CloudFormation template; prefer
+	 * `fromSecret` to keep it out of the template.
+	 *
+	 * @default - sourced from `fromSecret`
 	 */
-	readonly value: string;
+	readonly value?: string;
+	/**
+	 * Source the value from an AWS Secrets Manager secret instead of embedding
+	 * it in the template.
+	 *
+	 * Provide exactly one of `value` or `fromSecret`.
+	 *
+	 * @default - the literal `value` is used
+	 */
+	readonly fromSecret?: ActionSecretSourceProps;
 }
 
 export interface ActionProps extends Auth0Props {
@@ -96,9 +127,27 @@ export class Action extends CustomResource {
 	public readonly actionId = this.getAttString("actionId");
 
 	constructor(scope: Construct, id: string, props: ActionProps) {
+		for (const secret of props.secrets || []) {
+			const hasValue = secret.value !== undefined;
+			const hasSecret = secret.fromSecret !== undefined;
+			if (hasValue === hasSecret) {
+				throw new Error(
+					`Action secret "${secret.name}" must specify exactly one of "value" or "fromSecret".`,
+				);
+			}
+		}
+
+		const referencedSecrets = (props.secrets || [])
+			.map((secret) => secret.fromSecret?.secret)
+			.filter((secret): secret is ISecret => secret !== undefined);
+
 		super(scope, id, {
 			resourceType: "Custom::Auth0Action",
-			serviceToken: Provider.getOrCreate(scope, props.apiSecret),
+			serviceToken: Provider.getOrCreate(
+				scope,
+				props.apiSecret,
+				referencedSecrets,
+			),
 			properties: {
 				secretName: props.apiSecret.secretName,
 				name:
@@ -112,7 +161,12 @@ export class Action extends CustomResource {
 				dependencies: props.dependencies,
 				supportedTriggers: props.supportedTriggers,
 				runtime: props.runtime || "node22",
-				secrets: props.secrets,
+				secrets: props.secrets?.map((secret) => ({
+					name: secret.name,
+					value: secret.value,
+					secretArn: secret.fromSecret?.secret.secretArn,
+					secretField: secret.fromSecret?.field,
+				})),
 			},
 		});
 
